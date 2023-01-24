@@ -10,6 +10,17 @@ var connection=mysql.createConnection({
 });
 
 connection.connect((err)=>{
+    //provjera konekcije
+    if (connection.state === 'connected') {
+        console.log('Connected to MySQL Database');
+    } else if (connection.state === 'disconnected') {
+        console.log('Disconnected from MySQL Database');
+    } else if (connection.state === 'connecting') {
+        console.log('Connecting to MySQL Database');
+    } else if (connection.state === 'protocol_error') {
+        console.log('Protocol error with MySQL Database connection');
+    }
+    
     if(!err){
         console.log("Connected");
     }
