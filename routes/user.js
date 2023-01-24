@@ -8,6 +8,7 @@ const router = express.Router();
 router.use(bodyParser.json());
 
 const jwt = require('jsonwebtoken');
+const nodemailer=('nodemailer');
 require('dotenv').config();
 
 router.post('/signup', async (req, res) => {
@@ -61,5 +62,44 @@ router.post('/login', (req, res) => {
         console.log(err);
         return res.status(500).json(err);
     }
-});
+})
+/* PROMJENA LOZINKE 
+var transporter=nodemailer.createTransport({
+    service: 'gmail',
+    auth:{
+        user: process.env.EMAIL,
+        pass: process.env.PASSWORD
+    }
+})
+
+
+router.post('/forgotPassword', (req,res)=>{
+    const user=req.body;
+    query="select email, password from user where email=?";
+    connection.query(query,[user.email], (err,results)=>{
+        if(!err){ 
+            if(results.length<=0) {
+                return res.status(200).json({message:"Lozinka je poslana na vaš mail"});
+            } else {
+                var mailOptions={
+                    from:process.env.EMAIL,
+                    to:result[0].email,
+                    subject: "Lozinka za upravljanje zalihama",
+                    html: '<p><b>Vaši Login detalji za upravljanje zalihama</b><br><b>Email: </b>'+results[0].email+'<br><b>Lozinka: </b>'+results[0].password+'<br><a href="http://localhost:4200/>Pritisni ovdje za login</a></p>'
+                };
+                transporter.sendMail(mailOptions, function(error, info) {
+                    if(error) {
+                        console.log(error);
+                    }
+                    else {
+                        console.log('Email poslan: ' +info.response);
+                    }
+                });
+                return res.status(200).json({message:"Pavord je poslan na vaš email"});                
+            }
+        }   else {
+            return res.status(500).json(err);
+        }
+    })
+})  */
 module.exports = router;
