@@ -8,10 +8,10 @@ const router = express.Router();
 router.use(bodyParser.json());
 
 const jwt = require('jsonwebtoken');
-const nodemailer=('nodemailer');
+const nodemailer = ('nodemailer');
 require('dotenv').config();
-var auth= require('../services/authentication');
-var checkRole=require('../services/checkRole');
+var auth = require('../services/authentication');
+//var checkRole=require('../services/checkRole');
 router.post('/signup', async (req, res) => {
     try {
         let user = req.body;
@@ -37,8 +37,8 @@ router.post('/signup', async (req, res) => {
 router.post('/login', (req, res) => {
     const user = req.body;
     let query = "select email, password, role, status from user where email=?";
-    try{ 
-        
+    try {
+
         connection.query(query, [user.email], (err, results) => {
             if (err) {
                 return res.status(500).json(err);
@@ -104,27 +104,11 @@ router.post('/forgotPassword', (req,res)=>{
     })
 })  */
 
-router.get('/get', auth.authenticateToken,(req, res)=>{
-    var query="select id,name,email,contactNumber,status from user where role='user'";
-    connection.query(query,(err,results)=>{
-        if(!err){
+router.get('/get', auth.authenticateToken, (req, res) => {
+    var query = "select id,name,email,contactNumber,status from user where role='user'";
+    connection.query(query, (err, results) => {
+        if (!err) {
             return res.status(200).json(results);
-        }
-        else { 
-            return res.status(500).json(err);
-        }
-    })
-})
-
-router.patch('/update', auth.authenticateToken,(req,res)=>{
-    let user= req.body;
-    var query="update user set status=? where id=?";
-    connection.query(query,[user.status,user.id],(err,results)=>{
-        if(!err){
-            if(results.affectedRows==0){
-                return res.status(404),json({message: "Korisnik ne postoji!"});
-            }
-            return res.status(200).json({message:"Korisnik updateovan uspjesno"});
         }
         else {
             return res.status(500).json(err);
@@ -132,10 +116,53 @@ router.patch('/update', auth.authenticateToken,(req,res)=>{
     })
 })
 
-router.get('/chechToken', (req,res)=>{
-    return res.status(200).json({message:"true"});
+router.patch('/update', auth.authenticateToken, (req, res) => {
+    let user = req.body;
+    var query = "update user set status=? where id=?";
+    connection.query(query, [user.status, user.id], (err, results) => {
+        if (!err) {
+            if (results.affectedRows == 0) {
+                return res.status(404), json({ message: "Korisnik ne postoji!" });
+            }
+            return res.status(200).json({ message: "Korisnik updateovan uspjesno" });
+        }
+        else {
+            return res.status(500).json(err);
+        }
+    })
 })
-router.post('/changePassword', (req,res)=>{
 
+router.get('/checkToken', auth.authenticateToken, (req, res) => {
+    return res.status(200).json({ message: "true" })
+})
+router.post('/changePassword', (req, res) => {
+    const user = req.body;
+    const email = res.locals.email;
+    var query = "select *from user where email=? and password=?";
+    connection.query(query, [email, user, oldPassword], (err, results) => {
+        if (!err) {
+            if (results.length <= 0) {
+                return res.status(400).json({ message: "Netačna stara lozinka" });
+            }
+            else if (results[0].password == user.oldPassword) {
+                query = "update user set password=? where email=?";
+                connection.query(query, [user.newPassword, email], (err, results) => {
+                    if (!err) {
+                        return res.status(200).json({ message: "Lozinka uspješno promjenjena" })
+                    }
+                    else {
+                        return res.status(500).json(err);
+                    }
+                })
+
+            }
+            else {
+                return res.status(400).json({ message: "Nešto nije uredu" });
+            }
+        }
+        else {
+            return res.status(500).json(err);
+        }
+    })
 })
 module.exports = router;
