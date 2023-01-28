@@ -4,7 +4,7 @@ const connection = require('../connection');
 const { query } = require('express');
 const { restart } = require('nodemon');
 const router = express.Router();
-
+user
 router.use(bodyParser.json());
 
 const jwt = require('jsonwebtoken');

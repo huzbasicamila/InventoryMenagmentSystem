@@ -16,3 +16,13 @@ create table sirovine{
     name varchar(255) NOT NULL,
     primary key(id)
 };
+
+create table proizvodi(
+    id int NOT NULL AUTO_INCREMENT,
+    name varchar (255) NOT NULL,
+    sirovineId integer NOT NULL,
+    description varchar(255),
+    price integer,
+    status varchar(20),
+    primary key (id)
+);
