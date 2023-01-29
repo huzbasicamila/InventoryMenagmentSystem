@@ -26,3 +26,15 @@ create table proizvodi(
     status varchar(20),
     primary key (id)
 );
+CREATE TABLE dobavljaci (
+  id INT NOT NULL AUTO_INCREMENT, 
+  name VARCHAR(255) NOT NULL,
+  jib INT UNIQUE NOT NULL,
+  VAT INT NOT NULL,
+  phone_number INT NOT NULL,
+  contact_person VARCHAR(255) NOT NULL,
+  email_address VARCHAR(255) NOT NULL,
+  start_date DATE NOT NULL,
+  end_date DATE NOT NULL,
+  PRIMARY KEY (id)
+);
