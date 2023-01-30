@@ -1,8 +1,9 @@
 const express=require('express');
 const connection= require('../connection');
 const router=express.Router();
-var auth=require('--/services/authentication');
+var auth=require('../services/authentication');
 var checkRole=require('../services/checkRole');
+//router.use(bodyParser.json());
 
 router.post('/add', auth.authenticateToken, checkRole.checkRole,(req,res)=>{
     let proizvodi=req.body;

@@ -1,4 +1,4 @@
-require('dotnet').config();
+//require('dotnet').config();
 
 function checkRole(req,res,next) {
     if(res.locals.role == process.env.USER)
