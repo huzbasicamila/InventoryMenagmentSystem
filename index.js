@@ -9,7 +9,8 @@ const proizvodiRoute =require('./routes/proizvodi.js');
 const dobavljaciRoute= require('./routes/dobavljaci.js');
 const proizvodniprocesRoute= require('./routes/proizvodniproces.js');
 const upravljanjesirovinamaRoute=require('./routes/upravljanjesirovinama.js');
-
+const upravljanjeproizvodimaRoute=require('./routes/upravljanjeProizvodima.js');
+const upravljanjeDobavljacima=require('./routes/upravljanjeDobavljacima');
 
 app.use(cors());
 app.use(express.urlencoded({extended: true}));
@@ -20,4 +21,6 @@ app.use('/proizvodi', proizvodiRoute);
 app.use('/dobavljaci', dobavljaciRoute);
 app.use('/proizvodniprocesi',proizvodniprocesRoute);
 app.use('/upravljanjesirovinama', upravljanjesirovinamaRoute);
+app.use('/upravljanjeproizvodina', upravljanjeproizvodimaRoute);
+app.use('/upravljanjeDobavljacima', upravljanjeDobavljacima);
 module.exports=app;

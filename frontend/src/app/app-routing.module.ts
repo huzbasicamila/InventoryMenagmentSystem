@@ -1,10 +1,9 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
-const routes: Routes = [];
+constructor(private http: HttpClient) {}
 
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
-})
-export class AppRoutingModule { }
+ngOnInit() {
+  this.http.get('http://localhost:8000/user').subscribe(data => {
+    console.log(data);
+  });
+}
