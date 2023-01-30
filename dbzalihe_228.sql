@@ -38,3 +38,14 @@ CREATE TABLE dobavljaci (
   end_date DATE NOT NULL,
   PRIMARY KEY (id)
 );
+
+CREATE TABLE Proizvodni_procesi ( 
+  id INT NOT NULL AUTO_INCREMENT,
+  name VARCHAR(255) NOT NULL, 
+  start_date DATE, 
+  end_date DATE, 
+  price DECIMAL(10, 2) NOT NULL, 
+  PRIMARY KEY (id), 
+  UNIQUE (name), 
+  CHECK (end_date IS NULL OR start_date < end_date) 
+);
