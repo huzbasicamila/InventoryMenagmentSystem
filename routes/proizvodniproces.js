@@ -1,7 +1,7 @@
 
 const express = require('express');
 const router = express.Router();
-
+router.use(bodyParser.json());
 // Get Proizvodni_procesi
 router.get('/', (req, res) => {
   let sql = 'SELECT * FROM Proizvodni_procesi';

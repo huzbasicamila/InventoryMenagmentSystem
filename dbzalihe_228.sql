@@ -49,3 +49,9 @@ CREATE TABLE Proizvodni_procesi (
   UNIQUE (name), 
   CHECK (end_date IS NULL OR start_date < end_date) 
 );
+
+CREATE TABLE Proizvodi_proces_stavka (
+  id INT PRIMARY KEY,
+  sirovina_id INT NOT NULL,
+  kolicina FLOAT NOT NULL
+);
